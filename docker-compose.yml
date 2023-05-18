@@ -1,0 +1,28 @@
+
+volumes:
+  wsd-vol:
+
+services:
+
+  pgsql:
+    image: postgres:12.11
+    restart: always
+    environment:
+        POSTGRES_PASSWORD: 12345
+        POSTGRES_USER: user
+        POSTGRES_DB: postgres_wsd
+    volumes:
+        - wsd-vol:/var/lib/postgresql/data
+    ports:
+        - 5432:5432
+  python3:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    depends_on:
+      - pgsql
+    ports:
+      - 5000:5000
+    volumes:
+      - ./app:/usr/src/app
+
