@@ -8,7 +8,7 @@ WORKDIR /app
 RUN pip3 install -r app/requirements.txt
 
 
-ENV FLASK_APP=app/app.py
+ENV FLASK_APP=app/backend/app.py
 ENV FLASK_DEBUG=true
 ENV FLASK_ENV=development
 
