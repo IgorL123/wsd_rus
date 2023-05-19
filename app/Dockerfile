@@ -12,4 +12,4 @@ ENV FLASK_APP=app/app.py
 ENV FLASK_DEBUG=true
 ENV FLASK_ENV=development
 
-CMD ["sh", "-c", "sleep 1 && python3 -m flask run --host=0.0.0.0"]
+CMD ["sh", "-c", "sleep 1 && python3 -m flask run --host=0.0.0.0  && flask db init && flask db migrate && flask db upgrate"]
