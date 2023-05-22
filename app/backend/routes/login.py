@@ -1,9 +1,9 @@
 from flask import render_template, request, redirect, url_for, Blueprint
 from flask_login import LoginManager, login_user
-from models import Users, db
-import hash
+from ..models import Users, db
+from .hash import check_password_hash
 
-login = Blueprint('login', __name__, template_folder='../templates')
+login = Blueprint('login', __name__)
 login_manager = LoginManager()
 login_manager.init_app(login)
 
@@ -16,7 +16,7 @@ def show():
 
         user = Users.query.filter_by(email=email).first()
         if user:
-            if hash.check_password_hash(user.password_hash, password):
+            if check_password_hash(user.password_hash, password):
                 login_user(user)
                 return redirect(url_for('home.show', username=email))
             else:

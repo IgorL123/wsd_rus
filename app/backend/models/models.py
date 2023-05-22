@@ -27,9 +27,11 @@ class Request(db.Model):
     id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
     user = db.relationship("Users", backref='request', primaryjoin="Users.id == Request.id_user")
 
-    def __init__(self, text, word):
+    def __init__(self, text, word, date, id_user):
         self.text = text
         self.word = word
+        self.date = date
+        self.id_user = id_user
 
 
 class Response(db.Model):

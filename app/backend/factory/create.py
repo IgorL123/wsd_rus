@@ -1,17 +1,13 @@
 from flask import Flask
-from routes import init_routes
+from ..routes import login, logout, register, home, prompt, init_routes
 from flask_login import LoginManager
-from models import Users
-from login import login
-from logout import logout
-from register import register
-from home import home
+from ..models import Users
 
 
 def create_app(test_config=None):
 
-    app = Flask(__name__)
-    app.config.from_object("config.Config")
+    app = Flask(__name__, template_folder='../../templates')
+    app.config.from_object("backend.factory.config.Config")
     init_routes(app)
 
     login_manager = LoginManager()
@@ -21,6 +17,7 @@ def create_app(test_config=None):
     app.register_blueprint(logout)
     app.register_blueprint(register)
     app.register_blueprint(home)
+    app.register_blueprint(prompt)
     app.app_context().push()
 
     @login_manager.user_loader

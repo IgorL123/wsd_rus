@@ -1,9 +1,9 @@
 from flask import render_template, request, redirect, url_for, Blueprint
 from flask_login import LoginManager
-from models import Users, db
-import hash
+from ..models import Users, db
+from .hash import create_hash
 
-register = Blueprint('register', __name__, template_folder='../templates')
+register = Blueprint('register', __name__, template_folder='/home/igor/projects/PycharmProjects/wsd/app/templates')
 login_manager = LoginManager()
 login_manager.init_app(register)
 
@@ -15,7 +15,7 @@ def show():
         password = request.form['password']
 
         if email and password:
-            password_hash = hash.create_hash(password)
+            password_hash = create_hash(password)
             try:
                 new_user = Users(
                         email=email,

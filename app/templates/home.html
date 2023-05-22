@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-
-<body>
-    Welcome {{ current_user.username }}!
+    <div>
+          Welcome !
     <a href="/logout">Logout</a>
-</body>
+    </div>
 
-</html>
+    <form method="POST" action="/prompt">
+        <input type="text" name="prompt" class="form-control" placeholder="type a sentence">
+        <input type="text" name="word" class="form-control" placeholder="word">
+        <button type="submit">Submit</button>
+    </form>
+
+{% endblock %}
