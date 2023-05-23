@@ -16,16 +16,21 @@ def show():
 
         if email and password:
             password_hash = create_hash(password)
+
             try:
                 new_user = Users(
                         email=email,
                         password=password_hash,
                     )
-                db.session.add(new_user)
-                db.session.commit()
+                user = Users.query.filter_by(email=email).first()
+                if user:
+                    return redirect(url_for('register.show') + '?error=user-or-email-exists')
+                else:
+                    db.session.add(new_user)
+                    db.session.commit()
 
             except db.exc.IntegrityError:
-                return redirect(url_for('register.show') + '?error=user-or-email-exists')
+                return redirect(url_for('register.show') + '?error=exception')
 
             return redirect(url_for('login.show') + '?success=account-created')
         else:

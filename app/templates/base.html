@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
     <title>Wsd App</title>
-    <link rel="stylesheet" href="/app/app/static/styles.css">
-    <h2>
-         base
-    </h2>
+    <link href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+{% block content %}
+    <h1>
+    base
+    </h1>
+{% endblock %}
 </body>
 </html>

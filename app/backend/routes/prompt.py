@@ -24,6 +24,6 @@ def show():
             id_user=current_user.id
         )
         db.session.add(new_req)
-        db.commit()
+        db.session.commit()
         flask.flash("Success")
     return redirect(url_for('home.show'))
