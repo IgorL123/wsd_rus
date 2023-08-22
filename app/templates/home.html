@@ -2,9 +2,11 @@
 {% block content %}
 
     <div>
-          Welcome !
-    <a href="/logout">Logout</a>
+        <a href="/logout">Logout</a>
     </div>
+    <h2>
+        Получить значение слова в контексте
+    </h2>
 
     <form method="POST" action="/prompt">
         <input type="text" name="prompt" class="form-control" placeholder="type a sentence">
@@ -12,4 +14,22 @@
         <button type="submit">Submit</button>
     </form>
 
+    <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Sentence</th>
+              <th>Word    </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sentence, word in data %}
+              <tr>
+                <td>{{ sentence }}</td>
+                <td>{{ word     }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    </div>
 {% endblock %}

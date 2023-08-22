@@ -1,9 +1,9 @@
-from flask import render_template, request, redirect, url_for, Blueprint
-from flask_login import LoginManager
+from flask import request, redirect, url_for, Blueprint, render_template
+from flask_login import LoginManager, login_user
 from ..models import Users, db
 from .hash import create_hash
 
-register = Blueprint('register', __name__, template_folder='/home/igor/projects/PycharmProjects/wsd/app/templates')
+register = Blueprint('register', __name__, template_folder="../../templates")
 login_manager = LoginManager()
 login_manager.init_app(register)
 
@@ -28,11 +28,12 @@ def show():
                 else:
                     db.session.add(new_user)
                     db.session.commit()
+                    login_user(new_user)
 
             except db.exc.IntegrityError:
                 return redirect(url_for('register.show') + '?error=exception')
 
-            return redirect(url_for('login.show') + '?success=account-created')
+            return redirect(url_for('home.show'))
         else:
             return redirect(url_for('register.show') + '?error=missing-fields')
     else:
