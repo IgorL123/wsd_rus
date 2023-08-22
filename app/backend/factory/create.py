@@ -6,7 +6,9 @@ from ..models import Users
 
 def create_app(test_config=None):
 
-    app = Flask(__name__, template_folder='../../templates')
+    app = Flask(__name__,
+                template_folder='../../templates',
+                static_folder='../../static')
     app.config.from_object("backend.factory.config.Config")
     init_routes(app)
 

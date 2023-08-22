@@ -11,7 +11,7 @@ services:
     volumes:
         - wsd-vol:/var/lib/postgresql/data
     ports:
-        - 5432:5432
+        - "5432:5432"
   python3:
     build:
       context: .
@@ -19,7 +19,7 @@ services:
     depends_on:
       - pgsql
     ports:
-      - 5000:5000
+      - "5000:5000"
     env_file:
       - .env
     volumes:

@@ -11,6 +11,6 @@ RUN pip3 install -r app/requirements.txt
 ENV FLASK_APP=app/app.py
 ENV FLASK_DEBUG=true
 ENV FLASK_ENV=development
-ENV STATIC_PATH=app/app/static/
+ENV STATIC_PATH=app/app/static/styles.css
 
 CMD ["sh", "-c", "sleep 1 && python3 -m flask run --host=0.0.0.0  && flask db init && flask db migrate && flask db upgrate"]
