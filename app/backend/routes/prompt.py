@@ -2,8 +2,7 @@ from flask import request, Blueprint, redirect, url_for
 from flask_login import LoginManager, login_required, current_user
 from ..models import db, Request
 import datetime
-import flask
-
+from ..core import main
 
 prompt = Blueprint('prompt', __name__)
 login_manager = LoginManager()
@@ -13,9 +12,13 @@ login_manager.init_app(prompt)
 @prompt.route('/prompt', methods=['GET', 'POST'])
 @login_required
 def show():
+    res = "error"
     if request.method == 'POST':
         text = request.form['prompt']
         word = request.form['word']
+
+        if text.find(word) != 1:
+            print(1, flush=True)
 
         new_req = Request(
             text=text,
@@ -25,5 +28,9 @@ def show():
         )
         db.session.add(new_req)
         db.session.commit()
-        flask.flash("Success")
-    return redirect(url_for('home.show'))
+
+        res = main()
+    if request.method == 'GET':
+        pass
+
+    return redirect(url_for('home.show', result=res))

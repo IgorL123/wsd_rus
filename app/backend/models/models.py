@@ -33,6 +33,9 @@ class Request(db.Model):
         self.date = date
         self.id_user = id_user
 
+    def __repr__(self):
+        return f"{self.text}"
+
 
 class Response(db.Model):
     __tablename__ = "response"

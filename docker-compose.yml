@@ -16,6 +16,11 @@ services:
     build:
       context: .
       dockerfile: ./app/Dockerfile
+    environment:
+      FLASK_DEBUG: 1
+      FLASK_APP: app/app.py
+      FLASK_ENV: development
+      STATIC_PATH: app/app/static/styles.css
     depends_on:
       - pgsql
     ports:
@@ -23,7 +28,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app:/usr/src/app
+      - ./app:/app
 
 
 

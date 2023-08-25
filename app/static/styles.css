@@ -26,3 +26,47 @@ input[type="password"] {
   border: 1px solid #ccc;
 }
 
+.model-button {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background-color: #3b8ad2;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 250px;
+}
+
+.submit-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #3b8ad2;
+  color: white;
+}
+
+.model-button:hover {
+  background-color: #012c59;
+}
+
+.submit-button:hover {
+  background-color: #012c59;
+}
+.model-msg {
+  width: 60%;
+  min-height: 20%;
+  margin-top: 20px;
+  text-align: left;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.model-block {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

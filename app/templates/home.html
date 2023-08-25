@@ -1,35 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
+    <script src="../static/selectModel.js" > </script>
+    <script src="../static/typeText.js" > </script>
 
-    <div>
-        <a href="/logout">Logout</a>
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+        <a href="/logout" style="text-decoration: none; color: #000;">Logout</a>
     </div>
-    <h2>
+
+    <h2 style="text-align: center; margin-bottom: 20px;">
         Получить значение слова в контексте
     </h2>
 
-    <form method="POST" action="/prompt">
-        <input type="text" name="prompt" class="form-control" placeholder="type a sentence">
-        <input type="text" name="word" class="form-control" placeholder="word">
-        <button type="submit">Submit</button>
-    </form>
+    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
 
-    <div>
-        <table>
+        <form method="POST" action="/prompt" style="width: 30%; display: flex; flex-direction: column; align-items: center;">
+            <input type="text" name="prompt" class="form-control" placeholder="type a sentence" style="margin-bottom: 10px; width: 100%;">
+            <input type="text" name="word" class="form-control" placeholder="word" style="margin-bottom: 10px; width: 100%;">
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+
+    <div class="model-block">
+        {% for model in models %}
+            <div id="models">
+                <button class="model-button" type="button" onclick="selectModel('{{ model }}')">{{ model }}</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    </div>
+
+    <div id="result" class="model-msg">
+        {% if result %}
+            {{ result }}
+        {% else %}
+            Результат будет отображен здесь...
+        {% endif %}
+    </div>
+
+    <div style="width: 60%; margin-top: 20px; margin-left:auto; margin-right:auto;">
+        <h3 style="margin-bottom: 20px;">Предыдущие запросы</h3>
+        <table style="width: 100%; text-align: left; border-collapse: collapse;">
           <thead>
-            <tr>
-              <th>Sentence</th>
-              <th>Word    </th>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 15px; border-bottom: 1px solid #ddd;">Sentence</th>
+                <th style="padding: 15px; border-bottom: 1px solid #ddd;">Word</th>
+                <th style="padding: 15px; border-bottom: 1px solid #ddd;">Date</th>
             </tr>
           </thead>
           <tbody>
-            {% for sentence, word in data %}
+            {% for row in data %}
               <tr>
-                <td>{{ sentence }}</td>
-                <td>{{ word     }}</td>
+                <td style="padding: 15px; border-bottom: 1px solid #ddd;">{{ row.text }}</td>
+                <td style="padding: 15px; border-bottom: 1px solid #ddd;">{{ row.word }}</td>
+                <td style="padding: 15px; border-bottom: 1px solid #ddd;">{{ row.date }}</td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
     </div>
+
 {% endblock %}
