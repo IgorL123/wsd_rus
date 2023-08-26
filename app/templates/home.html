@@ -3,38 +3,37 @@
     <script src="../static/selectModel.js" > </script>
     <script src="../static/typeText.js" > </script>
 
-    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
-        <a href="/logout" style="text-decoration: none; color: #000;">Logout</a>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/logout" class="text-dark text-decoration-none">Logout</a>
     </div>
 
-    <h2 style="text-align: center; margin-bottom: 20px;">
+    <h2 class="text-center mb-3">
         Получить значение слова в контексте
     </h2>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-
-        <form id="mainForm" class="mainForm">
-            <input type="text" name="prompt" class="form-control" placeholder="type a sentence" style="margin-bottom: 10px; width: 100%;">
-            <input type="text" name="word" class="form-control" placeholder="word" style="margin-bottom: 10px; width: 100%;">
-            <button type="submit" class="submit-button">Submit</button>
-        </form>
-        <script src="../static/prompt.js"></script>
-
-        <script>
-            document.getElementById("mainForm").addEventListener("submit", function(event) {
-                let text = this.elements["prompt"].value;
-                let word = this.elements["word"].value;
-                makePrompt(text, word);
-            });
-        </script>
-
-    <div class="model-block">
-        {% for model in models %}
-            <div id="models">
-                <button class="model-button" type="button" onclick="selectModel('{{ model }}')">{{ model }}</button>
-            </div>
-        {% endfor %}
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Email address</label>
+      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
     </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+        <form method="POST" action="/prompt" id="mainForm" class="mainForm w-100">
+            <input type="text" name="text" class="form-control mb-2" placeholder="type a sentence">
+            <input type="text" name="word" class="form-control mb-2" placeholder="word">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <div class="model-block">
+            {% for model in models %}
+                <div id="models">
+                    <button class="btn btn-secondary mb-2" type="button" onclick="selectModel('{{ model }}')">{{ model }}</button>
+                </div>
+            {% endfor %}
+        </div>
 
     </div>
 
@@ -46,22 +45,24 @@
         {% endif %}
     </div>
 
-    <div style="width: 60%; margin-top: 20px; margin-left:auto; margin-right:auto;">
-        <h3 style="margin-bottom: 20px;">Предыдущие запросы</h3>
-        <table style="width: 100%; text-align: left; border-collapse: collapse;">
+
+    <h3 class="mb-3 text-left">Предыдущие запросы</h3>
+    <div class="w-60 mx-auto mt-3">
+
+        <table class="table">
           <thead>
-            <tr style="background-color: #f2f2f2;">
-                <th style="padding: 15px; border-bottom: 1px solid #ddd;">Sentence</th>
-                <th style="padding: 15px; border-bottom: 1px solid #ddd;">Word</th>
-                <th style="padding: 15px; border-bottom: 1px solid #ddd;">Date</th>
+            <tr>
+                <th>Sentence</th>
+                <th>Word</th>
+                <th>Date</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style="overflow-y: auto">
             {% for row in data %}
               <tr>
-                <td style="padding: 15px; border-bottom: 1px solid #ddd;">{{ row.text }}</td>
-                <td style="padding: 15px; border-bottom: 1px solid #ddd;">{{ row.word }}</td>
-                <td style="padding: 15px; border-bottom: 1px solid #ddd;">{{ row.date }}</td>
+                <td>{{ row.text }}</td>
+                <td>{{ row.word }}</td>
+                <td>{{ row.date }}</td>
               </tr>
             {% endfor %}
           </tbody>

@@ -1,2 +1,2 @@
 def main(*args):
-    return "test res"
+    return "test result"

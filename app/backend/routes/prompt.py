@@ -1,4 +1,4 @@
-from flask import request, Blueprint, redirect, url_for
+from flask import request, Blueprint, redirect, url_for, make_response
 from flask_login import LoginManager, login_required, current_user
 from ..models import db, Request
 import datetime
@@ -23,7 +23,7 @@ def show():
         new_req = Request(
             text=text,
             word=word,
-            date=datetime.datetime.today(),
+            date=datetime.datetime.now().isoformat(),
             id_user=current_user.id
         )
         db.session.add(new_req)
@@ -33,4 +33,5 @@ def show():
     if request.method == 'GET':
         pass
 
-    return res
+    resp = make_response(redirect(url_for("home.show", result=res)))
+    return resp

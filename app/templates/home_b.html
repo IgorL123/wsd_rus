@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h2 class="text-center mb-3">
+        Получить значение слова в контексте
+    </h2>
+
+    <div class="container">
+    <div class="row justify-content-around">
+        <div class="col-md">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Word</label>
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="example">
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label">Context</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
+                        placeholder="Some context for word example"
+                        onkeydown="if(event.keyCode === 13) {
+                            sendText(this.value, document.getElementById('exampleFormControlInput1').value);
+                            document.getElementById('exampleFormControlInput1').value = '';
+                        }"></textarea>
+            </div>
+
+            <div class="btn-group-horizontal" role="group" aria-label="Horizontal radio toggle button group">
+                {% for model in models %}
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="{{ model }}" autocomplete="off" checked
+                        onclick="selectModel('{{ model }}')">
+                    <label class="btn btn-outline-danger" for="{{ model }}">{{ model }}</label>
+                {% endfor %}
+            </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md" style="margin-top: auto; margin-bottom: auto; scroll-behavior: auto">
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                      <th>Sentence</th>
+                      <th>Word</th>
+                      <th>Date</th>
+                      <th>Meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {%  if data %}
+                        {%  for row in data %}
+                            <tr>
+                                <td class="align-top">{{ row.text }}</td>
+                                <td>{{ row.word }}</td>
+                                <td class="date">{{ row.date }}</td>
+                                {% if not row.meaning %}
+                                    <td>Ответ модели не найден, возможно это ошибка на сервере</td>
+                                {% else %}
+                                    <td>{{ row.meaning }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {%  else %}
+                            <tr>
+                                <td class="align-top" style="color: silver">Пример вашего предложения и многозначного слова</td>
+                                <td style="color: silver">Слово</td>
+                                <td id="date-container" style="color: silver" ></td>
+                                <td style="color: silver">Пример ответа модели </td>
+                            </tr>
+                    {% endif %}
+
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+
+<script src="../static/selectModel.js" > </script>
+
+{% endblock %}
