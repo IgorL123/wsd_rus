@@ -13,11 +13,20 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
 
-        <form method="POST" action="/prompt" style="width: 30%; display: flex; flex-direction: column; align-items: center;">
+        <form id="mainForm" class="mainForm">
             <input type="text" name="prompt" class="form-control" placeholder="type a sentence" style="margin-bottom: 10px; width: 100%;">
             <input type="text" name="word" class="form-control" placeholder="word" style="margin-bottom: 10px; width: 100%;">
             <button type="submit" class="submit-button">Submit</button>
         </form>
+        <script src="../static/prompt.js"></script>
+
+        <script>
+            document.getElementById("mainForm").addEventListener("submit", function(event) {
+                let text = this.elements["prompt"].value;
+                let word = this.elements["word"].value;
+                makePrompt(text, word);
+            });
+        </script>
 
     <div class="model-block">
         {% for model in models %}

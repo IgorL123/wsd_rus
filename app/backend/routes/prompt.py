@@ -14,8 +14,8 @@ login_manager.init_app(prompt)
 def show():
     res = "error"
     if request.method == 'POST':
-        text = request.form['prompt']
-        word = request.form['word']
+        text = request.json['text']
+        word = request.json['word']
 
         if text.find(word) != 1:
             print(1, flush=True)
@@ -33,4 +33,4 @@ def show():
     if request.method == 'GET':
         pass
 
-    return redirect(url_for('home.show', result=res))
+    return res
