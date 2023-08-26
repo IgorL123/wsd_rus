@@ -9,7 +9,6 @@
     <div class="row justify-content-around">
         <div class="col-md">
 
-
         <form action="/prompt" method="POST" id="main" content="application/json">
             <div class="mb-3">
 
@@ -33,7 +32,7 @@
                     <label class="btn btn-outline-danger" for="{{ model }}">{{ model }}</label>
                 {% endfor %}
             </div>
-            <div class="card" style="width: 80%; margin-top: 20px; margin-left: auto; margin-right: auto">
+            <div class="card" style="width: 85%; margin-top: 20px; margin-left: auto; margin-right: auto">
                 <div class="card-body">
                     {% if word %}
                         <h5 class="card-title"> Слово {{ word }}</h5>
@@ -47,7 +46,7 @@
                         Результат будет отображен здесь...
                     {% endif %}
                     </p>
-                    <a href="#" class="card-link">link</a>
+                    <a href="/" class="card-link">correct</a>
                 </div>
             </div>
         </div>
@@ -71,10 +70,12 @@
                                 <td class="align-top">{{ row.text }}</td>
                                 <td>{{ row.word }}</td>
                                 <td class="date">{{ row.date }}</td>
-                                {% if not row.meaning %}
-                                    <td class="align-top">Ответ модели не найден, возможно это ошибка на сервере</td>
+                                {% if row.response %}
+                                    {% for res in row.response %}
+                                    <td class="align-top">{{ res.text }}</td>
+                                    {% endfor %}
                                 {% else %}
-                                    <td class="align-top">{{ row.meaning }}</td>
+                                    <td class="align-top">Ответ модели не найден, возможно это ошибка на сервере</td>
                                 {% endif %}
                             </tr>
                         {% endfor %}

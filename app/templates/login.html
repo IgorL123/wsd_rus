@@ -1,24 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
 </head>
 
-
 <body>
-    <h2>
-        LOGIN
-    </h2>
-    <form method="POST" action="/login">
-        <input type="text" name="username" class="form-control" placeholder="Email">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        <p>Not Registered? <a href="/register"> Click Here</a></p>
-        <button type="submit">Login</button>
-    </form>
+    <div style="margin-right: auto; margin-left: auto; width: 30%">
+            <h2>
+                LOGIN
+            </h2>
+        <form action="/login" method="POST">
+          <div class="mb-2">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="example@mail.ru" name="username">
+            <div id="emailHelp" class="form-text"></div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                placeholder="********" name="password">
+
+              <p>Not Yet Registered? <a href="/register"> Click Here</a></p>
+          </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    </div>
 </body>
 
 {% endblock %}

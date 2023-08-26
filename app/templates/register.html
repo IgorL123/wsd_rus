@@ -4,19 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
 </head>
 
 <body>
-    <h2>
-        Register
-    </h2>
-    <form method="POST" action="/register">
-        <input type="text" name="email" class="form-control" placeholder="E-Mail">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-        <p>Already Registered? <a href="/login"> Click Here</a></p>
-        <button type="submit">Register</button>
-    </form>
+    <div style="margin-right: auto; margin-left: auto; width: 30%">
+            <h2>
+                REGISTER
+            </h2>
+        <form action="/register" method="POST">
+          <div class="mb-2">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                placeholder="example@mail.ru" name="email">
+            <div id="emailHelp" class="form-text"></div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                placeholder="********" name="password">
+
+              <p>Already Registered? <a href="/login"> Click Here</a></p>
+          </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    </div>
 </body>
 
 {% endblock %}

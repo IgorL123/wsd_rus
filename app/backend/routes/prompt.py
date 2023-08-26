@@ -1,4 +1,4 @@
-from flask import request, Blueprint, redirect, url_for, make_response
+from flask import request, Blueprint, redirect, url_for, make_response, flash
 from flask_login import LoginManager, login_required, current_user
 from ..models import db, Request, Response
 from ..core import main
@@ -17,8 +17,9 @@ def show():
         text = request.form['text']
         word = request.form['word']
 
-        if text.find(word) != 1:
-            print(1, flush=True)
+        if text.find(word) == -1:
+            flash("В предложении нет такого слова!", "error")
+            return redirect(url_for("home.show"))
 
         new_req = Request(
             text=text,

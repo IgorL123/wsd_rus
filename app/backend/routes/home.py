@@ -12,7 +12,7 @@ login_manager.init_app(home)
 def show():
     res = request.args.get('result')
     word = request.args.get('word')
-    requests = db.session.execute(db.select(Request) \
+    requests = db.session.execute(db.select(Request, Response.text.label("meaning")) \
                                   .join(Response) \
                                   .order_by(Request.date.desc()) \
                                   .filter(Request.id_user == current_user.id)).scalars()
