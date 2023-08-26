@@ -8,19 +8,23 @@
     <div class="container">
     <div class="row justify-content-around">
         <div class="col-md">
+
+
+        <form action="/prompt" method="POST" id="main" content="application/json">
             <div class="mb-3">
+
               <label for="exampleFormControlInput1" class="form-label">Word</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="example">
+              <input type="text" name="word" class="form-control" id="exampleFormControlInput1" placeholder="example">
             </div>
             <div class="mb-3">
               <label for="exampleFormControlTextarea1" class="form-label">Context</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"
                         placeholder="Some context for word example"
-                        onkeydown="if(event.keyCode === 13) {
-                            sendText(this.value, document.getElementById('exampleFormControlInput1').value);
-                            document.getElementById('exampleFormControlInput1').value = '';
-                        }"></textarea>
+                        name="text" form="main"></textarea>
             </div>
+            <button type="submit" class="btn btn-primary" style="margin-bottom: 10px">Submit</button>
+        </form>
+
 
             <div class="btn-group-horizontal" role="group" aria-label="Horizontal radio toggle button group">
                 {% for model in models %}
@@ -29,13 +33,21 @@
                     <label class="btn btn-outline-danger" for="{{ model }}">{{ model }}</label>
                 {% endfor %}
             </div>
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 80%; margin-top: 20px; margin-left: auto; margin-right: auto">
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
+                    {% if word %}
+                        <h5 class="card-title"> Слово {{ word }}</h5>
+                    {% else %}
+                        <h5 class="card-title"> Слово </h5>
+                    {% endif %}
+                    <p class="card-text">
+                    {% if result %}
+                        {{ result }}
+                    {% else %}
+                        Результат будет отображен здесь...
+                    {% endif %}
+                    </p>
+                    <a href="#" class="card-link">link</a>
                 </div>
             </div>
         </div>
@@ -60,9 +72,9 @@
                                 <td>{{ row.word }}</td>
                                 <td class="date">{{ row.date }}</td>
                                 {% if not row.meaning %}
-                                    <td>Ответ модели не найден, возможно это ошибка на сервере</td>
+                                    <td class="align-top">Ответ модели не найден, возможно это ошибка на сервере</td>
                                 {% else %}
-                                    <td>{{ row.meaning }}</td>
+                                    <td class="align-top">{{ row.meaning }}</td>
                                 {% endif %}
                             </tr>
                         {% endfor %}
@@ -71,7 +83,7 @@
                                 <td class="align-top" style="color: silver">Пример вашего предложения и многозначного слова</td>
                                 <td style="color: silver">Слово</td>
                                 <td id="date-container" style="color: silver" ></td>
-                                <td style="color: silver">Пример ответа модели </td>
+                                <td class="align-top" style="color: silver">Пример ответа модели </td>
                             </tr>
                     {% endif %}
 

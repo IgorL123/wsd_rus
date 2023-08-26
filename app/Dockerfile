@@ -7,4 +7,4 @@ COPY . /app
 WORKDIR /app
 RUN pip3 install -r app/requirements.txt
 
-CMD ["sh", "-c", "sleep 1 && python3 -m flask run --host=0.0.0.0"]
+CMD ["sh", "-c", "sleep 1 && python3 -m flask run --host=0.0.0.0 && flask db migrate && flask db upgrade"]

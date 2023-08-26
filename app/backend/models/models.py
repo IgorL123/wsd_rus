@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from sqlalchemy.sql import func
 
 db = SQLAlchemy()
 
@@ -22,15 +23,14 @@ class Request(db.Model):
     __tablename__ = "requests"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(), nullable=False)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.DateTime(), default=func.now())
     word = db.Column(db.String(), nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
     user = db.relationship("Users", backref='request', primaryjoin="Users.id == Request.id_user")
 
-    def __init__(self, text, word, date, id_user):
+    def __init__(self, text, word, id_user):
         self.text = text
         self.word = word
-        self.date = date
         self.id_user = id_user
 
     def __repr__(self):
@@ -45,7 +45,8 @@ class Response(db.Model):
     id_request = db.Column(db.Integer, db.ForeignKey(Request.id))
     request = db.relationship('Request', backref='response', primaryjoin='Request.id == Response.id_request')
 
-    def __init__(self, text, grade=None):
+    def __init__(self, text, id_request, grade=None):
         self.text = text
+        self.id_request = id_request
         if grade is not None:
             self.grade = grade

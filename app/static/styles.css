@@ -38,13 +38,6 @@ input[type="password"] {
     width: 250px;
 }
 
-.submit-button {
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #3b8ad2;
-  color: white;
-}
-
 .model-button:hover {
   background-color: #012c59;
 }
