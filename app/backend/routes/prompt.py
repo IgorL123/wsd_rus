@@ -13,6 +13,8 @@ login_manager.init_app(prompt)
 def show():
     res = "error"
     word = "error"
+    score = 0
+
     if request.method == 'POST':
         text = request.form['text']
         word = request.form['word']
@@ -29,7 +31,7 @@ def show():
         db.session.add(new_req)
         db.session.commit()
 
-        res = main()
+        res, score = main(text, word)
 
         new_res = Response(
             text=res,
@@ -42,5 +44,6 @@ def show():
     if request.method == 'GET':
         pass
 
-    resp = make_response(redirect(url_for("home.show", result=res, word=word)))
+    resp = make_response(redirect(url_for("home.show", result=res,
+                                          word=word, score=round(score, 2))))
     return resp
