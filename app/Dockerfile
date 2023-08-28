@@ -5,6 +5,7 @@ RUN apt-get update -y
 RUN apt-get install -y python3-pip python3 build-essential
 COPY . /app
 WORKDIR /app
+RUN pip3 install torch --index-url https://download.pytorch.org/whl/cpu
 RUN pip3 install -r app/requirements.txt
 RUN python3 -m nltk.downloader stopwords
 RUN python3 -m nltk.downloader punkt

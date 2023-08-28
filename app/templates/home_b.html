@@ -27,9 +27,15 @@
 
             <div class="btn-group-horizontal" role="group" aria-label="Horizontal radio toggle button group">
                 {% for model in models %}
-                    <input type="radio" class="btn-check" name="vbtn-radio" id="{{ model }}" autocomplete="off" checked
+                    {% if model.lower() == model_type %}
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="{{ model }}" checked
                         onclick="selectModel('{{ model }}')">
                     <label class="btn btn-outline-danger" for="{{ model }}">{{ model }}</label>
+                    {% else %}
+                    <input type="radio" class="btn-check" name="vbtn-radio" id="{{ model }}"
+                        onclick="selectModel('{{ model }}')">
+                    <label class="btn btn-outline-danger" for="{{ model }}">{{ model }}</label>
+                    {% endif %}
                 {% endfor %}
             </div>
             <div class="card" style="width: 85%; margin-top: 20px; margin-left: auto; margin-right: auto">
@@ -52,8 +58,7 @@
                 </div>
             </div>
         </div>
-
-
+    </div>
         <div class="col-md" style="margin-top: auto; margin-bottom: auto; scroll-behavior: auto">
             <div class="table-responsive">
               <table class="table align-middle">
@@ -94,9 +99,6 @@
               </table>
             </div>
         </div>
-    </div>
-
-
     </div>
 
 <script src="../static/selectModel.js" > </script>

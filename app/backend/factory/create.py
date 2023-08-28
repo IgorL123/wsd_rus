@@ -1,5 +1,5 @@
 from flask import Flask
-from ..routes import login, logout, register, home, prompt, init_routes, rating
+from ..routes import login, logout, register, home, prompt, init_routes, rating, select_model
 from flask_login import LoginManager
 from ..models import Users
 from ..core import load_vectors
@@ -22,6 +22,7 @@ def create_app(test_config=None):
     app.register_blueprint(home)
     app.register_blueprint(prompt)
     app.register_blueprint(rating)
+    app.register_blueprint(select_model.select)
     app.app_context().push()
 
     load_vectors()

@@ -1,8 +1,8 @@
 from gensim.models import KeyedVectors
 from flask import current_app
 from transformers import AutoTokenizer, AutoModel
-from embeddings import find_meanings, similarity, fasttext
-from bert import labse, tiny_bert
+from .embeddings import find_meanings, similarity, fasttext
+from .bert import labse, tiny_bert
 
 model = None
 tokenizer = None
@@ -34,13 +34,13 @@ def load_vectors():
 
     conf = current_app.config["MODEL"]
     if conf == "fasttext":
-        model = KeyedVectors.load('/app/backend/core/model/fasttext/model.model')
-    elif conf == "rubert-tiny":
-        tokenizer = AutoTokenizer.from_pretrained("cointegrated/rubert-tiny")
-        model = AutoModel.from_pretrained("cointegrated/rubert-tiny")
+        model = KeyedVectors.load(current_app.config["fasttext_path"])
+    elif conf == "tinybert":
+        tokenizer = AutoTokenizer.from_pretrained(current_app.config["tinybert"])
+        model = AutoModel.from_pretrained(current_app.config["tinybert"])
     elif conf == "labse":
-        tokenizer = AutoTokenizer.from_pretrained("cointegrated/LaBSE-en-ru")
-        model = AutoModel.from_pretrained("cointegrated/LaBSE-en-ru")
+        tokenizer = AutoTokenizer.from_pretrained(current_app.config["labse"])
+        model = AutoModel.from_pretrained(current_app.config["labse"])
 
 
 def main(text, word):
@@ -48,7 +48,9 @@ def main(text, word):
 
     if conf == "fasttext":
         return pipeline(text, word, extractor=fasttext)
-    elif conf == "rubert-tiny":
+    elif conf == "tinybert":
         return pipeline(text, word, extractor=tiny_bert)
     elif conf == "labse":
         return pipeline(text, word, extractor=labse)
+    else:
+        return "error", 0

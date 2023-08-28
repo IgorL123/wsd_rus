@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, current_app
 from flask_login import LoginManager, login_required, current_user
 from ..models import db, Request, Response
 
@@ -18,7 +18,8 @@ def show():
                                   .join(Response) \
                                   .order_by(Request.date.desc()) \
                                   .filter(Request.id_user == current_user.id)).scalars()
-    tmp = ["tinyBert", "Lama", "FastText"]
+    tmp = ["tinyBert", "LaBSE", "Lamma", "FastText"]
 
     return render_template('home_b.html', data=requests, models=tmp,
-                           result=res, word=word, score=score, id_response=id_response)
+                           result=res, word=word, score=score, id_response=id_response,
+                           model_type=current_app.config["MODEL"])

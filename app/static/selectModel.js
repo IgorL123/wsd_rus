@@ -5,7 +5,7 @@ function selectModel(modelName) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            model: modelName
+            model_type: modelName.toLowerCase()
         })
     })
     .then(response => response.json())

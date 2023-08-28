@@ -10,7 +10,7 @@ login_manager.init_app(select)
 @select.route('/select/model', methods=['POST'])
 @login_required
 def change():
-    model_type = request.args["model_type"]
+    model_type = request.json["model_type"]
     current_app.config["MODEL"] = model_type
     # too slow
     load_vectors()
