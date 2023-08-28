@@ -21,7 +21,7 @@ def tokenize(text):
             if not re.search(punctuation, word)]
 
 
-def fasttext(text, model, tokenizer):
+def fasttext(text, model, *args):
     tokens = tokenize(text)
 
     def use_model(x):

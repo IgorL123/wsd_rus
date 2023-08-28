@@ -67,6 +67,8 @@
                       <th>Sentence</th>
                       <th>Word</th>
                       <th>Date</th>
+                      <th>Model</th>
+                      <th>Score</th>
                       <th>Meaning</th>
                   </tr>
                 </thead>
@@ -79,6 +81,8 @@
                                 <td class="date">{{ row.date }}</td>
                                 {% if row.response %}
                                     {% for res in row.response %}
+                                    <td>{{ res.model_type }}</td>
+                                    <td>{{ res.score }}</td>
                                     <td class="align-top">{{ res.text }}</td>
                                     {% endfor %}
                                 {% else %}
@@ -91,6 +95,8 @@
                                 <td class="align-top" style="color: silver">Пример вашего предложения и многозначного слова</td>
                                 <td style="color: silver">Слово</td>
                                 <td id="date-container" style="color: silver" ></td>
+                                <td style="color: silver">fastext</td>
+                                <td style="color: silver">1</td>
                                 <td class="align-top" style="color: silver">Пример ответа модели </td>
                             </tr>
                     {% endif %}

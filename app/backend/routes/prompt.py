@@ -1,4 +1,4 @@
-from flask import request, Blueprint, redirect, url_for, make_response, flash
+from flask import request, Blueprint, redirect, url_for, make_response, flash, current_app
 from flask_login import LoginManager, login_required, current_user
 from ..models import db, Request, Response
 from ..core import main
@@ -33,7 +33,9 @@ def show():
         new_res = Response(
             text=res,
             grade=0,
-            id_request=new_req.id
+            id_request=new_req.id,
+            model_type=current_app.config["MODEL"],
+            score=round(100 * score, 2)
         )
         db.session.add(new_res)
         db.session.commit()

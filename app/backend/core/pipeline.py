@@ -34,13 +34,13 @@ def load_vectors():
 
     conf = current_app.config["MODEL"]
     if conf == "fasttext":
-        model = KeyedVectors.load(current_app.config["fasttext_path"])
+        model = KeyedVectors.load(current_app.config["FASTTEXT"])
     elif conf == "tinybert":
-        tokenizer = AutoTokenizer.from_pretrained(current_app.config["tinybert"])
-        model = AutoModel.from_pretrained(current_app.config["tinybert"])
+        tokenizer = AutoTokenizer.from_pretrained(current_app.config["TINYBERT"])
+        model = AutoModel.from_pretrained(current_app.config["TINYBERT"])
     elif conf == "labse":
-        tokenizer = AutoTokenizer.from_pretrained(current_app.config["labse"])
-        model = AutoModel.from_pretrained(current_app.config["labse"])
+        tokenizer = AutoTokenizer.from_pretrained(current_app.config["LABSE"])
+        model = AutoModel.from_pretrained(current_app.config["LABSE"])
 
 
 def main(text, word):

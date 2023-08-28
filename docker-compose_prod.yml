@@ -1,0 +1,33 @@
+version: '2.4'
+
+volumes:
+  wsd-vol:
+
+services:
+
+  pgsql:
+    image: postgres:12.11
+    restart: always
+    volumes:
+        - wsd-vol:/var/lib/postgresql/data
+    ports:
+        - "5432:5432"
+  flask:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile_prod
+    environment:
+      FLASK_APP: app/app.py
+      FLASK_ENV: production
+      STATIC_PATH: app/app/static/styles.css
+    depends_on:
+      - pgsql
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - ./app:/app
+
+
+
