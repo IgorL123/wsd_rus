@@ -2,6 +2,7 @@ from flask import Flask
 from ..routes import login, logout, register, home, prompt, init_routes, rating
 from flask_login import LoginManager
 from ..models import Users
+from ..core import load_vectors
 
 
 def create_app(test_config=None):
@@ -22,6 +23,8 @@ def create_app(test_config=None):
     app.register_blueprint(prompt)
     app.register_blueprint(rating)
     app.app_context().push()
+
+    load_vectors()
 
     @login_manager.user_loader
     def load_user(user_id):
