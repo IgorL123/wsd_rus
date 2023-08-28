@@ -11,9 +11,6 @@ login_manager.init_app(prompt)
 @prompt.route('/prompt', methods=['GET', 'POST'])
 @login_required
 def show():
-    res = "error"
-    word = "error"
-    score = 0
 
     if request.method == 'POST':
         text = request.form['text']
@@ -41,9 +38,19 @@ def show():
         db.session.add(new_res)
         db.session.commit()
 
-    if request.method == 'GET':
-        pass
+        result = {
+            "result": res,
+            "word": word,
+            "score": round(100 * score, 2),
+            "id_response": str(new_res.id)
+        }
 
-    resp = make_response(redirect(url_for("home.show", result=res,
-                                          word=word, score=round(score, 2))))
-    return resp
+        score = round(100 * score, 2)
+        id_response = str(new_res.id)
+
+        return make_response(redirect(url_for("home.show", result=res,
+                                              word=word, score=score, id_response=id_response
+                                              )))
+
+    if request.method == 'GET':
+        return redirect(url_for("/home.show"))

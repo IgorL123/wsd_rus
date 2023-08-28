@@ -1,5 +1,5 @@
 from flask import Flask
-from ..routes import login, logout, register, home, prompt, init_routes
+from ..routes import login, logout, register, home, prompt, init_routes, rating
 from flask_login import LoginManager
 from ..models import Users
 
@@ -20,6 +20,7 @@ def create_app(test_config=None):
     app.register_blueprint(register)
     app.register_blueprint(home)
     app.register_blueprint(prompt)
+    app.register_blueprint(rating)
     app.app_context().push()
 
     @login_manager.user_loader

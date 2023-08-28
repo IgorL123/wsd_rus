@@ -5,3 +5,4 @@ from .register import register
 from .home import home
 from .prompt import prompt
 from .routes import init_routes
+from .rating import rating

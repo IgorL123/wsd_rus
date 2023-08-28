@@ -11,12 +11,14 @@ login_manager.init_app(home)
 @login_required
 def show():
     res = request.args.get('result')
-    score = request.args.get('score')
     word = request.args.get('word')
+    score = request.args.get('score')
+    id_response = request.args.get('id_response')
     requests = db.session.execute(db.select(Request, Response.text.label("meaning")) \
                                   .join(Response) \
                                   .order_by(Request.date.desc()) \
                                   .filter(Request.id_user == current_user.id)).scalars()
-    tmp = ["Bert", "LLM", "Clusterisation", "Embeddings"]
-    return render_template('home_b.html', data=requests, models=tmp, result=res, word=word,
-                           score=score)
+    tmp = ["tinyBert", "Lama", "FastText"]
+
+    return render_template('home_b.html', data=requests, models=tmp,
+                           result=res, word=word, score=score, id_response=id_response)
