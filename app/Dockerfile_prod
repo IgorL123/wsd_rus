@@ -9,6 +9,5 @@ RUN pip3 install torch --index-url https://download.pytorch.org/whl/cpu
 RUN pip3 install -r app/requirements.txt
 RUN python3 -m nltk.downloader stopwords
 RUN python3 -m nltk.downloader punkt
-RUN bash app/migrate.sh
 
-CMD ["sh", "-c", "gunicorn -w 2 -b 0.0.0.0 'app:app'"]
+CMD ["sh", "-c", "sleep 1 && gunicorn -w 1 -b 0.0.0.0 app.prod:app"]

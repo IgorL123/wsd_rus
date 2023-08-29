@@ -8,6 +8,6 @@ class Config(object):
     SECRET_KEY = "aboba"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MODEL = "fasttext"
-    FASTTEXT = "/app/backend/core/model/fasttext/model.model"
+    FASTTEXT = "app/backend/core/model/fasttext/model.model"
     TINYBERT = "cointegrated/rubert-tiny"
     LABSE = "cointegrated/LaBSE-en-ru"

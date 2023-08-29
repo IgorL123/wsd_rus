@@ -12,22 +12,19 @@ services:
         - wsd-vol:/var/lib/postgresql/data
     ports:
         - "5432:5432"
+    depends_on:
+      - flask
+
   flask:
+    restart: always
     build:
       context: .
       dockerfile: ./app/Dockerfile_prod
     environment:
-      FLASK_APP: app/app.py
+      FLASK_APP: app/prod.py
       FLASK_ENV: production
       STATIC_PATH: app/app/static/styles.css
-    depends_on:
-      - pgsql
     ports:
       - "5000:5000"
     env_file:
       - .env
-    volumes:
-      - ./app:/app
-
-
-
