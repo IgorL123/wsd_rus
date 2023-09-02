@@ -3,6 +3,8 @@ from flask import current_app
 from transformers import AutoTokenizer, AutoModel
 from .embeddings import find_meanings, similarity, fasttext
 from .bert import labse, tiny_bert
+from multiprocessing import Pool
+
 
 model = None
 tokenizer = None
@@ -25,6 +27,28 @@ def pipeline(text: str, word: str, extractor) -> (str, float):
             if score > mx_score:
                 mx_score = score
                 mx_m = m[i]
+
+    return mx_m, mx_score
+
+
+def pipeline_parallel(text: str, word: str, extractor) -> (str, float):
+
+    text_emb = extractor(text, model, tokenizer)
+    m, e = find_meanings(word)
+
+    mx_m = ""
+    mx_score = 0
+
+    with Pool() as p:
+
+        args = [(m[i] + "." + e[i], model, tokenizer) if e[i] else (m[i], model) for i in range(len(m)) if m[i]]
+        m_embs = p.starmap(extractor, args)
+
+    for i in range(len(m_embs)):
+        score = similarity(m_embs[i], text_emb)
+        if score > mx_score:
+            mx_score = score
+            mx_m = m[i]
 
     return mx_m, mx_score
 
