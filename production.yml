@@ -12,16 +12,18 @@ services:
         - wsd-vol:/var/lib/postgresql/data
     ports:
         - "5432:5432"
+    env_file:
+      - .env
+
   flask:
-    command:
-      - gunicorn app.main:app -b 0.0.0.0:5000 --reload
+    command: ["sh", "-c", "gunicorn app.prod:app -b 0.0.0.0:5000"]
     container_name: "wsd_service_app"
     restart: on-failure
     build:
-      context: ./
+      context: .
       dockerfile: ./app/Dockerfile_prod
     environment:
-      FLASK_APP: prod.py
+      FLASK_APP: ./app/app.py
       FLASK_ENV: production
       STATIC_PATH: app/app/static/styles.css
     depends_on:
@@ -31,4 +33,4 @@ services:
     env_file:
       - .env
     volumes:
-      - ./app:/app
+      - ./app:/app/app

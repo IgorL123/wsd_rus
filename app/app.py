@@ -1,8 +1,6 @@
 from flask_migrate import Migrate
 from backend.factory import create_app
 from backend.models import db
-import sys
-sys.path.append("..")
 
 
 app = create_app()

@@ -1,4 +1,4 @@
 #!/bin/bash
-flask --app app.py db init
-flask --app app.py db migrate
-flask --app app.py db upgrade
+flask db init
+flask db migrate
+flask db upgrade
