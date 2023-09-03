@@ -1,4 +1,4 @@
-from flask import request, Blueprint, redirect, url_for
+from flask import request, Blueprint, redirect, url_for, current_app
 from flask_login import LoginManager, login_required
 from ..models import db, Response
 
@@ -16,4 +16,5 @@ def change():
         response.grade = 1
         db.session.commit()
 
+    current_app.logger.info("New rating committed")
     return redirect(url_for("home.show"))

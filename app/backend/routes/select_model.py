@@ -13,6 +13,8 @@ def change():
     model_type = request.json["model_type"]
     current_app.config["MODEL"] = model_type
     # too slow
+    current_app.logger.info(f"Start loading new vectors for {model_type}")
     load_vectors()
+    current_app.logger.info(f"End loading new vectors for {model_type}")
 
     return redirect(url_for("home.show"))

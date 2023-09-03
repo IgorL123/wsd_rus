@@ -13,6 +13,7 @@ login_manager.init_app(prompt)
 def show():
 
     if request.method == 'POST':
+
         text = request.form['text']
         word = request.form['word']
 
@@ -27,8 +28,11 @@ def show():
         )
         db.session.add(new_req)
         db.session.commit()
+        current_app.logger.info(f"New prompt from user with id {current_user.id}")
 
+        current_app.logger.info("Embeddings call")
         res, score = main(text, word)
+        current_app.logger.info("Embeddings end call")
 
         new_res = Response(
             text=res,

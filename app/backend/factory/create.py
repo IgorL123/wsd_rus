@@ -4,6 +4,7 @@ from flask_login import LoginManager
 from ..models import Users
 from ..core import load_vectors
 from ..routes import select_model
+from logs import set_logger
 
 
 def create_app(test_config=None):
@@ -30,6 +31,8 @@ def create_app(test_config=None):
     app.app_context().push()
 
     load_vectors()
+    set_logger(app.logger)
+    app.logger.info('App started')
 
     @login_manager.user_loader
     def load_user(user_id):
