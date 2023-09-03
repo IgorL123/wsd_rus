@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, Blueprint, current_app
+from flask import render_template, request, redirect, url_for, Blueprint, current_app, flash
 from flask_login import LoginManager, login_user
 from ..models import Users
 from .hash import check_password_hash
@@ -25,9 +25,11 @@ def show():
                 return redirect(next or url_for('home.show'))
             else:
                 current_app.logger.info("Login attempt with invalid password")
+                flash("Неправильный пароль", "error")
                 return redirect(url_for('login.show') + '?error=incorrect-password')
         else:
             current_app.logger.info("Login attempt with invalid email")
+            flash("Пользователя не существует", "error")
             return redirect(url_for('login.show') + '?error=user-not-found')
     else:
         return render_template('login.html')

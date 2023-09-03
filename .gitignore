@@ -1,3 +1,5 @@
 /app/wsd/
 /app/.env
 /app/model/fasttext
+logs/error.log
+logs/info.log

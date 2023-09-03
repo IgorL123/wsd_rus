@@ -9,6 +9,6 @@ login_manager.init_app(logout)
 @logout.route('/logout')
 @login_required
 def show():
-    logout_user()
     current_app.logger.info(f"Logout user with id {current_user.id}")
+    logout_user()
     return redirect(url_for('login.show') + '?success=logged-out')

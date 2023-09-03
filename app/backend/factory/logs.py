@@ -1,6 +1,6 @@
 import logging
 from logging.handlers import RotatingFileHandler
-from config import Config
+from .config import Config
 from os.path import join
 
 
@@ -25,7 +25,7 @@ def set_logger(logger=logging.getLogger()):
 
     # Create formatter
     detailed_formatter = logging.Formatter(
-        fmt="%(levelname)s %(asctime)s [%(name)s:%(filename)s:%(funcName)s:%(lineno)d]\n%(message)s\n"
+        fmt="%(levelname)s %(asctime)s %(message)s [%(name)s:%(filename)s:%(funcName)s:%(lineno)d]"
     )
 
     # Hook it all up

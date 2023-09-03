@@ -2,7 +2,7 @@ import torch
 
 
 def labse(text, model, tokenizer):
-    encoded_input = tokenizer(text, padding=True, truncation=True, max_length=64, return_tensors='pt')
+    encoded_input = tokenizer(text, padding=True, truncation=True, max_length=128, return_tensors='pt')
     with torch.no_grad():
         model_output = model(**encoded_input)
     embeddings = model_output.pooler_output
