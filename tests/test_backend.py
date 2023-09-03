@@ -1,8 +1,7 @@
 import pytest
 from flask import url_for
-import sys
-sys.path.append("app")
 from app.backend.factory import create_app
+
 
 @pytest.fixture
 def app():

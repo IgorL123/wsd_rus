@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <h2 class="text-center mb-3">
+        История запросов
+    </h2>
+
+    <div class="container">
+        <div class="col-md" style="margin-top: auto; margin-bottom: auto; scroll-behavior: auto">
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr>
+                      <th>Sentence</th>
+                      <th>Word</th>
+                      <th>Date</th>
+                      <th>Model</th>
+                      <th>Score</th>
+                      <th>Meaning</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {%  if data %}
+                        {%  for row in data %}
+                            <tr>
+                                <td class="align-top">{{ row.text }}</td>
+                                <td>{{ row.word }}</td>
+                                <td class="date">{{ row.date }}</td>
+                                {% if row.response %}
+                                    {% for res in row.response %}
+                                    <td>{{ res.model_type }}</td>
+                                    <td>{{ res.score }}</td>
+                                    <td class="align-top">{{ res.text }}</td>
+                                    {% endfor %}
+                                {% else %}
+                                    <td class="align-top">Ответ модели не найден, возможно это ошибка на сервере</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    {%  else %}
+                            <tr>
+                                <td class="align-top" style="color: silver">Пример вашего предложения и многозначного слова</td>
+                                <td style="color: silver">Слово</td>
+                                <td id="date-container" style="color: silver" ></td>
+                                <td style="color: silver">fastext</td>
+                                <td style="color: silver">1</td>
+                                <td class="align-top" style="color: silver">Пример ответа модели </td>
+                            </tr>
+                    {% endif %}
+
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

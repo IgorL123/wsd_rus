@@ -29,11 +29,12 @@ def show():
                     db.session.add(new_user)
                     db.session.commit()
                     login_user(new_user)
+                    next = request.args.get('next')
 
             except db.exc.IntegrityError:
                 return redirect(url_for('register.show') + '?error=exception')
 
-            return redirect(url_for('home.show'))
+            return redirect(next or url_for('home.show'))
         else:
             return redirect(url_for('register.show') + '?error=missing-fields')
     else:

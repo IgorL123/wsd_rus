@@ -1,8 +1,9 @@
 from flask import Flask
-from ..routes import login, logout, register, home, prompt, init_routes, rating, select_model
+from ..routes import *
 from flask_login import LoginManager
 from ..models import Users
 from ..core import load_vectors
+from ..routes import select_model
 
 
 def create_app(test_config=None):
@@ -10,10 +11,12 @@ def create_app(test_config=None):
     app = Flask(__name__,
                 template_folder='../../templates',
                 static_folder='../../static')
-    app.config.from_object("backend.factory.config.Config")
+    app.config.from_object("app.backend.factory.config.Config")
     init_routes(app)
 
     login_manager = LoginManager()
+    login_manager.session_protection = "strong"
+    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
     app.register_blueprint(login)
@@ -23,6 +26,7 @@ def create_app(test_config=None):
     app.register_blueprint(prompt)
     app.register_blueprint(rating)
     app.register_blueprint(select_model.select)
+    app.register_blueprint(history)
     app.app_context().push()
 
     load_vectors()

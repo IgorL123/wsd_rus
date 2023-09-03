@@ -5,8 +5,8 @@
         Получить значение слова в контексте
     </h2>
 
-    <div class="container">
-    <div class="row justify-content-around">
+    <div class="container" style="width: 55%">
+    <div class="row justify-content-around" >
         <div class="col-md">
 
         <form action="/prompt" method="POST" id="main" content="application/json">
@@ -24,7 +24,6 @@
             <button type="submit" class="btn btn-primary" style="margin-bottom: 10px">Submit</button>
         </form>
 
-
             <div class="btn-group-horizontal" role="group" aria-label="Horizontal radio toggle button group">
                 {% for model in models %}
                     {% if model.lower() == model_type %}
@@ -38,7 +37,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <div class="card" style="width: 85%; margin-top: 20px; margin-left: auto; margin-right: auto">
+            <div class="card" style="margin-top: 20px; margin-left: auto; margin-right: auto">
                 <div class="card-body">
                     {% if result %}
                         <h5 class="card-title"> Слово {{ word }} с уверенностью {{ score }}%</h5>
@@ -59,52 +58,6 @@
             </div>
         </div>
     </div>
-        <div class="col-md" style="margin-top: auto; margin-bottom: auto; scroll-behavior: auto">
-            <div class="table-responsive">
-              <table class="table align-middle">
-                <thead>
-                  <tr>
-                      <th>Sentence</th>
-                      <th>Word</th>
-                      <th>Date</th>
-                      <th>Model</th>
-                      <th>Score</th>
-                      <th>Meaning</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {%  if data %}
-                        {%  for row in data %}
-                            <tr>
-                                <td class="align-top">{{ row.text }}</td>
-                                <td>{{ row.word }}</td>
-                                <td class="date">{{ row.date }}</td>
-                                {% if row.response %}
-                                    {% for res in row.response %}
-                                    <td>{{ res.model_type }}</td>
-                                    <td>{{ res.score }}</td>
-                                    <td class="align-top">{{ res.text }}</td>
-                                    {% endfor %}
-                                {% else %}
-                                    <td class="align-top">Ответ модели не найден, возможно это ошибка на сервере</td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                    {%  else %}
-                            <tr>
-                                <td class="align-top" style="color: silver">Пример вашего предложения и многозначного слова</td>
-                                <td style="color: silver">Слово</td>
-                                <td id="date-container" style="color: silver" ></td>
-                                <td style="color: silver">fastext</td>
-                                <td style="color: silver">1</td>
-                                <td class="align-top" style="color: silver">Пример ответа модели </td>
-                            </tr>
-                    {% endif %}
-
-                </tbody>
-              </table>
-            </div>
-        </div>
     </div>
 
 <script src="../static/selectModel.js" > </script>

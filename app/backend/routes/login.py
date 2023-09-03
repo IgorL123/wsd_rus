@@ -18,7 +18,9 @@ def show():
         if user:
             if check_password_hash(user.password_hash, password):
                 login_user(user)
-                return redirect(url_for('home.show'))
+                next = request.args.get('next')
+
+                return redirect(next or url_for('home.show'))
             else:
                 return redirect(url_for('login.show') + '?error=incorrect-password')
         else:

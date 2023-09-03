@@ -16,7 +16,7 @@ services:
       - .env
 
   flask:
-    command: ["sh", "-c", "gunicorn app.prod:app -b 0.0.0.0:5000"]
+    command: ["sh", "-c", "gunicorn app.app:app -b 0.0.0.0:5000 -w 2"]
     container_name: "wsd_service_app"
     restart: on-failure
     build:
