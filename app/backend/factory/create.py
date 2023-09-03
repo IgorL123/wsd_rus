@@ -1,13 +1,13 @@
 from flask import Flask
-from ..routes import *
 from flask_login import LoginManager
+from ..routes import *
 from ..models import Users
 from ..core import load_vectors
 from ..routes import select_model
 from .logs import set_logger
 
 
-def create_app(test_config=None):
+def create_app():
 
     app = Flask(__name__,
                 template_folder='../../templates',

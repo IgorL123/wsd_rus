@@ -1,7 +1,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
-from .config import Config
 from os.path import join
+from .config import Config
 
 
 def set_logger(logger=logging.getLogger()):
@@ -9,14 +9,14 @@ def set_logger(logger=logging.getLogger()):
     logger.setLevel(logging.DEBUG)
 
     # Create handlers
-    info_handler = logging.handlers.RotatingFileHandler(
+    info_handler = RotatingFileHandler(
         filename=join(Config.LOGDIR, "info.log"),
         maxBytes=10485760,  # 1 MB
         backupCount=1,
     )
 
     info_handler.setLevel(logging.INFO)
-    error_handler = logging.handlers.RotatingFileHandler(
+    error_handler = RotatingFileHandler(
         filename=join(Config.LOGDIR, "error.log"),
         maxBytes=10485760,  # 1 MB
         backupCount=1,

@@ -44,13 +44,6 @@ def show():
         db.session.add(new_res)
         db.session.commit()
 
-        result = {
-            "result": res,
-            "word": word,
-            "score": round(100 * score, 2),
-            "id_response": str(new_res.id)
-        }
-
         score = round(100 * score, 2)
         id_response = str(new_res.id)
 

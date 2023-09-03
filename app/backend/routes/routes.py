@@ -6,5 +6,3 @@ def init_routes(app):
     def index():
         current_app.logger.info("Default route user")
         return redirect('login')
-
-

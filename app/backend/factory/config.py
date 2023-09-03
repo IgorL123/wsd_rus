@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class Config(object):
+class Config:
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URl")
     SECRET_KEY = "aboba"
     LOGDIR = "app/logs/"
