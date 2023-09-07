@@ -10,10 +10,8 @@ services:
     restart: always
     volumes:
         - wsd-vol:/var/lib/postgresql/data
-    ports:
-        - "5432:5432"
     env_file:
-      - .env
+      - /app/.env
 
   flask:
     command: ["sh", "-c", "gunicorn app.app:app -b 0.0.0.0:5000 -w 2"]
@@ -28,9 +26,16 @@ services:
       STATIC_PATH: app/app/static/styles.css
     depends_on:
       - pgsql
-    ports:
-      - "5000:5000"
+    expose:
+      - 5000
     env_file:
       - .env
     volumes:
       - ./app:/app/app
+
+  nginx:
+    build: ./app/app/nginx
+    ports:
+      - "1337:80"
+    depends_on:
+      - flask
