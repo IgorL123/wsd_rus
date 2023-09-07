@@ -1,3 +1,4 @@
+import flask
 from flask import request, redirect, url_for, Blueprint, render_template, current_app, flash
 from flask_login import LoginManager, login_user
 from ..models import Users, db

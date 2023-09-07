@@ -6,13 +6,13 @@ from .embeddings import find_meanings, similarity, fasttext
 from .bert import labse, tiny_bert
 
 
-MODEL = None
-TOKENIZER = None
+MODELS = []
+TOKENIZERS = []
 
 
-def pipeline(text: str, word: str, extractor) -> (str, float):
+def pipeline(text: str, word: str, extractor, model_index: int) -> (str, float):
 
-    text_emb = extractor(text, MODEL, TOKENIZER)
+    text_emb = extractor(text, MODELS[model_index], TOKENIZERS[model_index])
     (meaning, embed) = find_meanings(word)
 
     mx_m = ""
@@ -20,9 +20,11 @@ def pipeline(text: str, word: str, extractor) -> (str, float):
     for ind, mean in enumerate(meaning):
         if mean:
             if embed[ind]:
-                m_emb = extractor(mean + "." + embed[ind], MODEL, TOKENIZER)
+                m_emb = extractor(mean + "." + embed[ind],
+                                  MODELS[model_index],
+                                  TOKENIZERS[model_index])
             else:
-                m_emb = extractor(mean, MODEL)
+                m_emb = extractor(mean, MODELS[model_index])
             score = similarity(m_emb, text_emb)
             if score > mx_score:
                 mx_score = score
@@ -30,9 +32,9 @@ def pipeline(text: str, word: str, extractor) -> (str, float):
     return mx_m, mx_score
 
 
-def pipeline_parallel(text: str, word: str, extractor) -> (str, float):
+def pipeline_parallel(text: str, word: str, extractor, model_index) -> (str, float):
 
-    text_emb = extractor(text, MODEL, TOKENIZER)
+    text_emb = extractor(text, MODELS[model_index], TOKENIZERS[model_index])
     (meaning, embed) = find_meanings(word)
 
     mx_m = ""
@@ -44,9 +46,10 @@ def pipeline_parallel(text: str, word: str, extractor) -> (str, float):
             if mean:
                 if embed[ind]:
                     args.append((mean + "." + embed[ind],
-                                 MODEL, TOKENIZER))
+                                 MODELS[model_index],
+                                 TOKENIZERS[model_index]))
                 else:
-                    args.append((mean, MODEL))
+                    args.append((mean, MODELS[model_index]))
         m_embs = pool.starmap(extractor, args)
 
     for ind, emb in enumerate(m_embs):
@@ -59,27 +62,24 @@ def pipeline_parallel(text: str, word: str, extractor) -> (str, float):
 
 
 def load_vectors():
-    global MODEL, TOKENIZER
+    global MODELS, TOKENIZERS
 
-    conf = current_app.config["MODEL"]
-    if conf == "fasttext":
-        MODEL = KeyedVectors.load(current_app.config["FASTTEXT"])
-    elif conf == "tinybert":
-        TOKENIZER = AutoTokenizer.from_pretrained(current_app.config["TINYBERT"])
-        MODEL = AutoModel.from_pretrained(current_app.config["TINYBERT"])
-    elif conf == "labse":
-        TOKENIZER = AutoTokenizer.from_pretrained(current_app.config["LABSE"])
-        MODEL = AutoModel.from_pretrained(current_app.config["LABSE"])
-    else:
-        MODEL = KeyedVectors.load(current_app.config["FASTTEXT"])
+    MODELS.append(KeyedVectors.load(current_app.config["FASTTEXT"]))
+    TOKENIZERS.append(None)
+    """
+    MODELS.append(AutoModel.from_pretrained(current_app.config["TINYBERT"]))
+    TOKENIZERS.append(AutoTokenizer.from_pretrained(current_app.config["TINYBERT"]))
+
+    MODELS.append(AutoModel.from_pretrained(current_app.config["LABSE"]))
+    TOKENIZERS.append(AutoTokenizer.from_pretrained(current_app.config["LABSE"]))
+    """
 
 
-def main(text, word):
-    conf = current_app.config["MODEL"]
+def main(text, word, model_type):
 
-    if conf == "fasttext":
-        return pipeline(text, word, extractor=fasttext)
-    if conf == "tinybert":
-        return pipeline(text, word, extractor=tiny_bert)
-    if conf == "labse":
-        return pipeline(text, word, extractor=labse)
+    if model_type == "fasttext":
+        return pipeline(text, word, extractor=fasttext, model_index=0)
+    if model_type == "tinybert":
+        return pipeline(text, word, extractor=tiny_bert, model_index=1)
+    if model_type == "labse":
+        return pipeline(text, word, extractor=labse, model_index=2)

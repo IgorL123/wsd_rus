@@ -31,7 +31,7 @@ def show():
         current_app.logger.info(f"New prompt from user with id {current_user.id}")
 
         current_app.logger.info("Embeddings call")
-        res, score = main(text, word)
+        res, score = main(text, word, model_type=current_app.config["MODEL"])
         current_app.logger.info("Embeddings end call")
 
         new_res = Response(

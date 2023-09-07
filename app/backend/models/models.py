@@ -23,7 +23,7 @@ class Request(db.Model):
     __tablename__ = "requests"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     text = db.Column(db.String(1000), nullable=False)
-    date = db.Column(db.DateTime(), default=func.now)
+    date = db.Column(db.DateTime(), default=func.now())
     word = db.Column(db.String(25), nullable=False)
     id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
     user = db.relationship("Users", backref='request', primaryjoin="Users.id == Request.id_user")

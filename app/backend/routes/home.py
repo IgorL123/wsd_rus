@@ -14,7 +14,7 @@ def show():
     score = request.args.get('score')
     id_response = request.args.get('id_response')
 
-    tmp = ["tinyBert", "LaBSE", "Lamma", "FastText"]
+    tmp = ["tinyBert", "LaBSE", "FastText"]
     return render_template('home_b.html', models=tmp, result=res,
                            word=word, score=score, id_response=id_response,
                            model_type=current_app.config["MODEL"])
