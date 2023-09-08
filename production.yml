@@ -11,10 +11,10 @@ services:
     volumes:
         - wsd-vol:/var/lib/postgresql/data
     env_file:
-      - /app/.env
+      - app/.env
 
   flask:
-    command: ["sh", "-c", "gunicorn app.app:app -b 0.0.0.0:5000 -w 2"]
+    command: ["sh", "-c", "gunicorn app.app:app -c ./gunicorn.conf.py"]
     container_name: "wsd_service_app"
     restart: on-failure
     build:
@@ -34,7 +34,7 @@ services:
       - ./app:/app/app
 
   nginx:
-    build: ./app/app/nginx
+    build: ./app/nginx
     ports:
       - "1337:80"
     depends_on:

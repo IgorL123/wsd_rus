@@ -15,6 +15,7 @@ services:
     env_file:
       - .env
   flask:
+    container_name: "dev_wsd_app"
     build:
       context: .
       dockerfile: ./app/Dockerfile
