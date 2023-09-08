@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 from ..routes import *
 from ..models import Users
@@ -37,5 +37,9 @@ def create_app():
     @login_manager.user_loader
     def load_user(user_id):
         return Users.query.get(int(user_id))
+
+    @login_manager.unauthorized_handler
+    def unauthorized_handler():
+        return render_template("401.html")
 
     return app
