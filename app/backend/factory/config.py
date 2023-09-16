@@ -10,11 +10,11 @@ class Config(object):
     SESSION_PERMANENT = True
     LOGDIR = "app/logs/"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    NUM_P = 2
-    USE_P = False
+    NUM_P = int(os.getenv("NUM_P"))
+    USE_P = int(os.getenv("USE_P"))
 
     MODEL = "fasttext"
-    ONLY_FASTTEXT = True
+    ONLY_FASTTEXT = int(os.getenv("ONLY_FASTTEXT"))
     FASTTEXT = "app/backend/core/model/fasttext/model.model"
     TINYBERT = "cointegrated/rubert-tiny"
     LABSE = "cointegrated/LaBSE-en-ru"
