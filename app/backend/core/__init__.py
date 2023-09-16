@@ -1,2 +1,2 @@
 from .pipeline import main
-from .pipeline import load_vectors
+from .pipeline import preload_vectors

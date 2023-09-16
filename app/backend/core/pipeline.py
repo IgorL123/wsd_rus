@@ -3,6 +3,7 @@ from gensim.models import KeyedVectors
 from flask import current_app
 from transformers import AutoTokenizer, AutoModel
 from .embeddings import find_meanings, similarity, fasttext
+from .defenitions import find_word
 from .bert import labse, tiny_bert
 
 
@@ -13,7 +14,10 @@ TOKENIZERS = []
 def pipeline(text: str, word: str, extractor, model_index: int) -> (str, float):
 
     text_emb = extractor(text, MODELS[model_index], TOKENIZERS[model_index])
-    (meaning, embed) = find_meanings(word)
+    meaning = find_word(word)
+    embed = [""] * len(meaning)
+    if len(meaning) == 0:
+        (meaning, embed) = find_meanings(word)
 
     mx_m = ""
     mx_score = 0
@@ -35,12 +39,15 @@ def pipeline(text: str, word: str, extractor, model_index: int) -> (str, float):
 def pipeline_parallel(text: str, word: str, extractor, model_index) -> (str, float):
 
     text_emb = extractor(text, MODELS[model_index], TOKENIZERS[model_index])
-    (meaning, embed) = find_meanings(word)
+    meaning = find_word(word)
+    embed = [""] * len(meaning)
+    if len(meaning) == 0:
+        (meaning, embed) = find_meanings(word)
 
     mx_m = ""
     mx_score = 0
 
-    with Pool() as pool:
+    with Pool(current_app.config["NUM_P"]) as pool:
         args = []
         for ind, mean in enumerate(meaning):
             if mean:
@@ -61,25 +68,36 @@ def pipeline_parallel(text: str, word: str, extractor, model_index) -> (str, flo
     return mx_m, mx_score
 
 
-def load_vectors():
+def preload_vectors():
     global MODELS, TOKENIZERS
 
-    MODELS.append(KeyedVectors.load(current_app.config["FASTTEXT"]))
-    TOKENIZERS.append(None)
-    """
-    MODELS.append(AutoModel.from_pretrained(current_app.config["TINYBERT"]))
-    TOKENIZERS.append(AutoTokenizer.from_pretrained(current_app.config["TINYBERT"]))
+    if current_app.config["ONLY_FASTTEXT"]:
+        MODELS.append(KeyedVectors.load(current_app.config["FASTTEXT"]))
+        TOKENIZERS.append(None)
+    else:
+        MODELS.append(KeyedVectors.load(current_app.config["FASTTEXT"]))
+        TOKENIZERS.append(None)
 
-    MODELS.append(AutoModel.from_pretrained(current_app.config["LABSE"]))
-    TOKENIZERS.append(AutoTokenizer.from_pretrained(current_app.config["LABSE"]))
-    """
+        MODELS.append(AutoModel.from_pretrained(current_app.config["TINYBERT"]))
+        TOKENIZERS.append(AutoTokenizer.from_pretrained(current_app.config["TINYBERT"]))
+
+        MODELS.append(AutoModel.from_pretrained(current_app.config["LABSE"]))
+        TOKENIZERS.append(AutoTokenizer.from_pretrained(current_app.config["LABSE"]))
 
 
 def main(text, word, model_type):
 
-    if model_type == "fasttext":
-        return pipeline(text, word, extractor=fasttext, model_index=0)
-    if model_type == "tinybert":
-        return pipeline(text, word, extractor=tiny_bert, model_index=1)
-    if model_type == "labse":
-        return pipeline(text, word, extractor=labse, model_index=2)
+    if current_app.config["USE_P"]:
+        if model_type == "fasttext":
+            return pipeline(text, word, extractor=fasttext, model_index=0)
+        if model_type == "tinybert":
+            return pipeline(text, word, extractor=tiny_bert, model_index=1)
+        if model_type == "labse":
+            return pipeline(text, word, extractor=labse, model_index=2)
+    else:
+        if model_type == "fasttext":
+            return pipeline_parallel(text, word, extractor=fasttext, model_index=0)
+        if model_type == "tinybert":
+            return pipeline_parallel(text, word, extractor=tiny_bert, model_index=1)
+        if model_type == "labse":
+            return pipeline_parallel(text, word, extractor=labse, model_index=2)

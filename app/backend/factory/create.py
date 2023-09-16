@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_login import LoginManager
 from ..routes import *
 from ..models import Users
-from ..core import load_vectors
+from ..core import preload_vectors
 from ..routes import select_model
 from .logs import set_logger
 
@@ -30,7 +30,7 @@ def create_app():
     app.register_blueprint(history)
     app.app_context().push()
 
-    load_vectors()
+    preload_vectors()
     set_logger(app.logger)
     app.logger.info('App started')
 
